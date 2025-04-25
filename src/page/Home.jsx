@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: 100%;
-  background-color: white;
+  background-color: #fff;
   border-radius: 30px;
   padding: 40px 30px;
 `;
@@ -42,8 +42,8 @@ const FilterBox = styled.div`
   top: 44px; /* 버튼 아래에 위치하도록 조절 */
   left: 0;
   z-index: 10;
-  padding: 20px;
   width: 350px;
+  height: 500px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
@@ -54,6 +54,9 @@ const FilterH = styled.div`
   justify-content: space-between;
   font-weight: 500;
   letter-spacing: -1px;
+  background-color: #fff3f5;
+  padding: 15px;
+  border-radius: 8px 8px 0 0;
   svg {
     font-size: 20px;
     cursor: pointer;
