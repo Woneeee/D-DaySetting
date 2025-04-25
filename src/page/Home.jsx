@@ -171,7 +171,6 @@ export const Home = () => {
       try {
         const res = await getDDay(nowPage);
         setData(res.data.decisionData);
-        setNowPage(res.data.pageInfo.nowPage);
         setMaxPage(res.data.pageInfo.maxPage);
       } catch (err) {
         console.log("API 에러:", err);
@@ -200,10 +199,8 @@ export const Home = () => {
 
     return range;
   };
-
   const isFirstPage = nowPage === 1;
   const isLastPage = nowPage === maxPage;
-  const companyNames = [...new Set(data.map((item) => item.customer))];
 
   console.log(data);
   // console.log(companyNames);
