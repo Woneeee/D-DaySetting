@@ -129,6 +129,8 @@ const Ellipsis = styled.span`
   color: #999;
 `;
 
+//지가 꿀리니까 그런거임임
+
 export const Home = () => {
   const [data, setData] = useState([]);
   const [nowPage, setNowPage] = useState(1);
