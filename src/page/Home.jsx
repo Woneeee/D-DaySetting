@@ -89,6 +89,7 @@ const Select = styled.select`
   margin-top: 10px;
   letter-spacing: -1px;
   padding: 10px;
+  appearance: none;
   option {
     letter-spacing: -1px;
   }
@@ -190,8 +191,8 @@ export const Home = () => {
   // 페이지 그룹 계산 (예: 1, 2, 3, 4 ... 그룹으로 나누기)
   const getPaginationRange = () => {
     const range = [];
-    const start = Math.floor((nowPage - 1) / 3) * 3 + 1; // 페이지 그룹의 첫 페이지
-    const end = Math.min(start + 2, maxPage); // 페이지 그룹의 마지막 페이지
+    const start = Math.floor((nowPage - 1) / 5) * 5 + 1; // 페이지 그룹의 첫 페이지
+    const end = Math.min(start + 4, maxPage); // 페이지 그룹의 마지막 페이지
 
     for (let i = start; i <= end; i++) {
       range.push(i);
@@ -203,7 +204,6 @@ export const Home = () => {
   const isLastPage = nowPage === maxPage;
 
   console.log(data);
-  // console.log(companyNames);
 
   return (
     <Container>
