@@ -135,29 +135,6 @@ export const Home = () => {
   const [maxPage, setMaxPage] = useState(1);
   // 밖에서 쓸려고
   const [showFilter, setShowFilter] = useState(false);
-  const pageBlockSize = 5;
-  const getPageNumbers = () => {
-    const pages = [];
-    const pageBlockSize = 5;
-
-    const currentBlockStart =
-      Math.floor((nowPage - 1) / pageBlockSize) * pageBlockSize + 1;
-    const currentBlockEnd = Math.min(
-      currentBlockStart + pageBlockSize - 1,
-      maxPage - 1
-    ); // 마지막은 고정
-
-    for (let i = currentBlockStart; i <= currentBlockEnd; i++) {
-      pages.push(i);
-    }
-
-    if (maxPage > currentBlockEnd) {
-      pages.push("ellipsis");
-      pages.push(maxPage);
-    }
-
-    return pages;
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -173,6 +150,29 @@ export const Home = () => {
 
     fetchData();
   }, [nowPage]);
+
+  // 페이지네이션 관련 함수
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= maxPage) {
+      setNowPage(page);
+    }
+  };
+
+  // 페이지 그룹 계산 (예: 1, 2, 3, 4 ... 그룹으로 나누기)
+  const getPaginationRange = () => {
+    const range = [];
+    const start = Math.floor((nowPage - 1) / 3) * 3 + 1; // 페이지 그룹의 첫 페이지
+    const end = Math.min(start + 2, maxPage); // 페이지 그룹의 마지막 페이지
+
+    for (let i = start; i <= end; i++) {
+      range.push(i);
+    }
+
+    return range;
+  };
+
+  const isFirstPage = nowPage === 1;
+  const isLastPage = nowPage === maxPage;
 
   console.log(data);
 
@@ -227,36 +227,43 @@ export const Home = () => {
           </Tbody>
         </Table>
 
+        {/* 페이지네이션 */}
         <PaginationWrapper>
           <PageButton
-            onClick={() => setNowPage(Math.max(1, nowPage - 5))}
-            disabled={nowPage <= 5}
+            onClick={() => handlePageChange(1)}
+            disabled={isFirstPage}
           >
-            ←
+            &lt;&lt;
+          </PageButton>
+          <PageButton
+            onClick={() => handlePageChange(nowPage - 1)}
+            disabled={isFirstPage}
+          >
+            &lt;
           </PageButton>
 
-          {getPageNumbers().map((num, i) =>
-            num === "ellipsis" ? (
-              <Ellipsis key={i}>...</Ellipsis>
-            ) : (
-              <PageButton
-                key={num}
-                onClick={() => setNowPage(num)}
-                active={nowPage === num}
-              >
-                {num}
-              </PageButton>
-            )
-          )}
+          {/* 페이지 그룹 버튼들 */}
+          {getPaginationRange().map((page) => (
+            <PageButton
+              key={page}
+              onClick={() => handlePageChange(page)}
+              active={page === nowPage}
+            >
+              {page}
+            </PageButton>
+          ))}
 
           <PageButton
-            onClick={() => {
-              const nextStart = Math.floor((nowPage - 1) / 5 + 1) * 5 + 1;
-              if (nextStart <= maxPage) setNowPage(nextStart);
-            }}
-            disabled={nowPage + 5 > maxPage}
+            onClick={() => handlePageChange(nowPage + 1)}
+            disabled={isLastPage}
           >
-            →
+            &gt;
+          </PageButton>
+          <PageButton
+            onClick={() => handlePageChange(maxPage)}
+            disabled={isLastPage}
+          >
+            &gt;&gt;
           </PageButton>
         </PaginationWrapper>
       </Wrapper>
