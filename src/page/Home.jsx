@@ -208,8 +208,12 @@ export const Home = () => {
   };
   const isFirstPage = nowPage === 1;
   const isLastPage = nowPage === maxPage;
+  // const companyNames = [...new Set(data.map((item) => item.customer))];
+  // const serialNum = [...new Set(data.map((item) => item.compSerial))];
 
   console.log(data);
+  // console.log(companyNames);
+  // console.log(serialNum);
 
   return (
     <Container>
@@ -326,3 +330,7 @@ export const Home = () => {
     </Container>
   );
 };
+// 정리
+// 파라미터에 있는 page랑 count는 값을 조회할때 필요한 것이고
+// nowPage랑 maxPage는 조회한 것에 대한 결과값인 거임.
+// 그 now 랑 max 로 페이지네이션을 돌릴 수 있음.
