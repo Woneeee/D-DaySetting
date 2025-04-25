@@ -31,7 +31,9 @@ const FilterWrapper = styled.div`
 
 const Filter = styled.button`
   border: ${(props) =>
-    props.$filterOn ? "2px solid #1865e0" : "2px solid #55555528"};
+    props.$filterOn
+      ? "2px solid #1865e0"
+      : "2px solid rgba(85, 85, 85, 0.157)"};
   border-radius: 8px;
   padding: 8px 12px;
   letter-spacing: -1px;
@@ -57,9 +59,38 @@ const FilterH = styled.div`
   background-color: #fff3f5;
   padding: 15px;
   border-radius: 8px 8px 0 0;
+  border-bottom: 2px solid #55555518;
   svg {
     font-size: 20px;
     cursor: pointer;
+  }
+`;
+
+const FilterB = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  padding: 15px;
+`;
+
+const Company = styled.div`
+  width: 100%;
+  h3 {
+    letter-spacing: -1px;
+    font-weight: 500;
+  }
+`;
+
+const Select = styled.select`
+  width: 100%;
+  height: 50px;
+  border: 1px solid #55555518;
+  border-radius: 8px;
+  margin-top: 10px;
+  letter-spacing: -1px;
+  padding: 10px;
+  option {
+    letter-spacing: -1px;
   }
 `;
 
@@ -125,12 +156,15 @@ const PageButton = styled.button`
   }
 `;
 
+const SerialNum = styled.div``;
+
 export const Home = () => {
   const [data, setData] = useState([]);
   const [nowPage, setNowPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   // 밖에서 쓸려고
   const [showFilter, setShowFilter] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState("all");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -169,8 +203,10 @@ export const Home = () => {
 
   const isFirstPage = nowPage === 1;
   const isLastPage = nowPage === maxPage;
+  const companyNames = [...new Set(data.map((item) => item.customer))];
 
   console.log(data);
+  console.log(companyNames);
 
   return (
     <Container>
@@ -195,6 +231,22 @@ export const Home = () => {
                   onClick={() => setShowFilter((prev) => !prev)}
                 />
               </FilterH>
+
+              <FilterB>
+                <Company>
+                  <h3>업체명</h3>
+                  <Select
+                    value={selectedCompany}
+                    onChange={(e) => e.target.value}
+                  >
+                    <option value="all">전체</option>
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                  </Select>
+                </Company>
+
+                <SerialNum></SerialNum>
+              </FilterB>
             </FilterBox>
           )}
         </FilterWrapper>
