@@ -89,7 +89,13 @@ const Select = styled.select`
   margin-top: 10px;
   letter-spacing: -1px;
   padding: 10px;
-  appearance: none;
+  cursor: pointer;
+
+  /* 🔽 기본 화살표 없애기 */
+  /* appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none; */
+
   option {
     letter-spacing: -1px;
   }
@@ -234,7 +240,7 @@ export const Home = () => {
                   <h3>업체명</h3>
                   <Select
                     value={selectedCompany}
-                    onChange={(e) => e.target.value}
+                    onChange={(e) => setSelectedCompany(e.target.value)}
                   >
                     <option value="all">전체</option>
                     <option value="a">A</option>
