@@ -30,13 +30,11 @@ const FilterWrapper = styled.div`
 `;
 
 const Filter = styled.button`
-  border: 2px solid #55555528;
+  border: ${(props) =>
+    props.$filterOn ? "2px solid #1865e0" : "2px solid #55555528"};
   border-radius: 8px;
   padding: 8px 12px;
   letter-spacing: -1px;
-  &:hover {
-    /* border: 2px solid #1865e0; */
-  }
 `;
 
 const FilterBox = styled.div`
@@ -58,6 +56,7 @@ const FilterH = styled.div`
   letter-spacing: -1px;
   svg {
     font-size: 20px;
+    cursor: pointer;
   }
 `;
 
@@ -123,14 +122,6 @@ const PageButton = styled.button`
   }
 `;
 
-const Ellipsis = styled.span`
-  padding: 6px 10px;
-  font-size: 16px;
-  color: #999;
-`;
-
-//지가 꿀리니까 그런거임임
-
 export const Home = () => {
   const [data, setData] = useState([]);
   const [nowPage, setNowPage] = useState(1);
@@ -186,7 +177,10 @@ export const Home = () => {
         </Title>
 
         <FilterWrapper>
-          <Filter onClick={() => setShowFilter((prev) => !prev)}>
+          <Filter
+            onClick={() => setShowFilter((prev) => !prev)}
+            $filterOn={showFilter}
+          >
             <IoFilter />
             &nbsp; Filter
           </Filter>
@@ -194,7 +188,9 @@ export const Home = () => {
             <FilterBox>
               <FilterH>
                 <h2>Filter</h2>
-                <IoCloseOutline />
+                <IoCloseOutline
+                  onClick={() => setShowFilter((prev) => !prev)}
+                />
               </FilterH>
             </FilterBox>
           )}
