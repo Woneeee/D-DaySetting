@@ -206,7 +206,7 @@ export const Home = () => {
   const companyNames = [...new Set(data.map((item) => item.customer))];
 
   console.log(data);
-  console.log(companyNames);
+  // console.log(companyNames);
 
   return (
     <Container>
