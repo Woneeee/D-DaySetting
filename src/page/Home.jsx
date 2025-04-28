@@ -148,6 +148,12 @@ const Apply = styled.button`
   font-size: 15px;
   font-weight: 500;
   letter-spacing: -1px;
+  transition: all 0.15s ease; /* 부드럽게 전환 */
+
+  &:active {
+    transform: scale(0.96) translateY(2px); /* 살짝 작아지고 내려감 */
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2); /* 안쪽 그림자 추가 */
+  }
 `;
 
 const Table = styled.table`
