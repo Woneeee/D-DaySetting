@@ -13,4 +13,10 @@ export const getDDay = (page = 1, count = 15) => {
   });
 };
 
+export const getAllDDay = (page = 1, count = 9999) => {
+  return api.get("/setting/d-day/comps", {
+    params: { page, count },
+  });
+};
+
 // http://192.168.100.169:8400

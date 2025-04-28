@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getDDay } from "../api";
+import { getDDay, getAllDDay } from "../api";
 import styled from "styled-components";
 import { IoCloseOutline, IoFilter } from "react-icons/io5";
 
@@ -167,12 +167,15 @@ const SerialNum = styled.div``;
 
 export const Home = () => {
   const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]); // 🔥 전체 데이터 저장용
   const [nowPage, setNowPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [compNames, setCompNames] = useState([]); // 🔥 전체 업체명 리스트
   // 밖에서 쓸려고
   const [showFilter, setShowFilter] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState("all");
 
+  // 1번 useEffect - 페이지별 데이터
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -186,6 +189,27 @@ export const Home = () => {
 
     fetchData();
   }, [nowPage]);
+
+  // 2번 useEffect - 전체 데이터 (한 번만)
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const res = await getAllDDay();
+        setAllData(res.data.decisionData);
+
+        const uniqueCompNames = [
+          ...new Set(res.data.decisionData.map((item) => item.customer)),
+        ];
+        setCompNames(uniqueCompNames);
+
+        // res는 fetch 함수 안에서만 살아있음
+      } catch (err) {
+        console.log("API 에러:", err);
+      }
+    };
+
+    fetchAllData();
+  }, []); // <-- 빈 배열 [] -> 최초 1번만 실행
 
   // 페이지네이션 관련 함수
   const handlePageChange = (page) => {
@@ -206,14 +230,13 @@ export const Home = () => {
 
     return range;
   };
+
   const isFirstPage = nowPage === 1;
   const isLastPage = nowPage === maxPage;
-  // const companyNames = [...new Set(data.map((item) => item.customer))];
-  // const serialNum = [...new Set(data.map((item) => item.compSerial))];
 
   console.log(data);
-  // console.log(companyNames);
-  // console.log(serialNum);
+  // console.log(allData);
+  console.log(compNames);
 
   return (
     <Container>
