@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getDDay, getAllDDay } from "../api";
 import styled from "styled-components";
 import { IoCloseOutline, IoFilter } from "react-icons/io5";
-import { BiBorderRadius } from "react-icons/bi";
 
 const Container = styled.div`
   width: 100%;
@@ -200,11 +199,9 @@ export const Home = () => {
   const [nowPage, setNowPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [compNames, setCompNames] = useState([]); // 🔥 전체 업체명 리스트
-  const [serialNums, setSerialNums] = useState([]); // 🔥 전체 시리얼 번호 리스트
   // 밖에서 쓸려고
   const [showFilter, setShowFilter] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState("all");
-  const [selectedSerial, setSelectedSerial] = useState("all");
   const [isOn, setIsOn] = useState(false);
 
   // 1번 useEffect - 페이지별 데이터
@@ -235,11 +232,6 @@ export const Home = () => {
         ];
         setCompNames(uniqueCompNames.sort()); // 내림차순 정렬
 
-        // 고유한 시리얼 번호 리스트 생성
-        const uniqueSerialNums = [
-          ...new Set(res.data.decisionData.map((item) => item.compSerial)),
-        ];
-        setSerialNums(uniqueSerialNums.sort()); // 내림차순 정렬
         // res는 fetch 함수 안에서만 살아있음
       } catch (err) {
         console.log("API 에러:", err);
@@ -280,7 +272,6 @@ export const Home = () => {
   console.log(data);
   // console.log(allData);
   // console.log(compNames);
-  // console.log(serialNums);
 
   return (
     <Container>
@@ -324,22 +315,6 @@ export const Home = () => {
                     ))}
                   </Select>
                 </Company>
-
-                <SerialNum>
-                  <h3>시리얼넘버</h3>
-                  <Select
-                    value={selectedSerial}
-                    onChange={(e) => setSelectedSerial(e.target.value)}
-                  >
-                    <option value="all">전체</option>
-                    {/* 🔥 전체 시리얼넘버 리스트로 드롭다운 채우기 */}
-                    {serialNums.map((serial, idx) => (
-                      <option key={idx} value={serial}>
-                        {serial}
-                      </option>
-                    ))}
-                  </Select>
-                </SerialNum>
 
                 <SerialNum>
                   <h3>시리얼넘버 존재하는 공압기만 조회</h3>
