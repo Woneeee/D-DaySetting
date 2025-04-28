@@ -45,7 +45,6 @@ const FilterBox = styled.div`
   left: 0;
   z-index: 10;
   width: 350px;
-  height: 500px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
@@ -98,6 +97,57 @@ const Select = styled.select`
   option {
     letter-spacing: -1px;
   }
+`;
+
+const SerialNum = styled.div`
+  margin-top: 40px;
+  h3 {
+    letter-spacing: -1px;
+    font-weight: 500;
+  }
+`;
+
+const SerialToggleBtn = styled.button`
+  width: 60px;
+  height: 30px;
+  background-color: ${(props) => (props.$active ? "#1865e0" : "#ccc")};
+  border-radius: 30px;
+  border: none;
+  position: relative;
+  margin-top: 10px;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: ${(props) => (props.$active ? "32px" : "3px")};
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+`;
+// ::after	HTML에 없는 가짜 요소를 생성해서 꾸며주는 기능
+// content: "";	그 가짜 요소를 "실제로 존재"하게 만듦 (내용은 비워둘 수도 있음)
+// 안 쓰면?	::after는 생성되지 않아서 width, height, background 같은 것도 적용 안 됨
+
+const FilterF = styled.div`
+  width: 100%;
+  padding: 15px;
+  background-color: #fff3f5;
+  border-top: 2px solid #55555518;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  flex-direction: row-reverse;
+`;
+
+const Apply = styled.button`
+  padding: 8px 18px;
+  background-color: #1865e0;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -1px;
 `;
 
 const Table = styled.table`
@@ -161,37 +211,6 @@ const PageButton = styled.button`
     background-color: ${(props) => (props.active ? "#1865e0" : "#f2f2f2")};
   }
 `;
-
-const SerialNum = styled.div`
-  margin-top: 40px;
-  h3 {
-    letter-spacing: -1px;
-    font-weight: 500;
-  }
-`;
-
-const SerialToggleBtn = styled.button`
-  width: 60px;
-  height: 30px;
-  background-color: ${(props) => (props.$active ? "#1865e0" : "#ccc")};
-  border-radius: 30px;
-  border: none;
-  position: relative;
-  margin-top: 10px;
-  &::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: ${(props) => (props.$active ? "32px" : "3px")};
-    width: 24px;
-    height: 24px;
-    background-color: #fff;
-    border-radius: 50%;
-  }
-`;
-// ::after	HTML에 없는 가짜 요소를 생성해서 꾸며주는 기능
-// content: "";	그 가짜 요소를 "실제로 존재"하게 만듦 (내용은 비워둘 수도 있음)
-// 안 쓰면?	::after는 생성되지 않아서 width, height, background 같은 것도 적용 안 됨
 
 export const Home = () => {
   const [data, setData] = useState([]);
@@ -324,6 +343,10 @@ export const Home = () => {
                   ></SerialToggleBtn>
                 </SerialNum>
               </FilterB>
+
+              <FilterF>
+                <Apply>Apply</Apply>
+              </FilterF>
             </FilterBox>
           )}
         </FilterWrapper>
