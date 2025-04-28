@@ -163,7 +163,9 @@ const PageButton = styled.button`
   }
 `;
 
-const SerialNum = styled.div``;
+const SerialNum = styled.div`
+  margin-top: 40px;
+`;
 
 export const Home = () => {
   const [data, setData] = useState([]);
@@ -171,9 +173,11 @@ export const Home = () => {
   const [nowPage, setNowPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [compNames, setCompNames] = useState([]); // 🔥 전체 업체명 리스트
+  const [serialNums, setSerialNums] = useState([]); // 🔥 전체 시리얼 번호 리스트
   // 밖에서 쓸려고
   const [showFilter, setShowFilter] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState("all");
+  const [selectedSerial, setSelectedSerial] = useState("all");
 
   // 1번 useEffect - 페이지별 데이터
   useEffect(() => {
@@ -197,11 +201,17 @@ export const Home = () => {
         const res = await getAllDDay();
         setAllData(res.data.decisionData);
 
+        // 고유한 업체명 리스트 생성
         const uniqueCompNames = [
           ...new Set(res.data.decisionData.map((item) => item.customer)),
         ];
-        setCompNames(uniqueCompNames);
+        setCompNames(uniqueCompNames.sort()); // 내림차순 정렬
 
+        // 고유한 시리얼 번호 리스트 생성
+        const uniqueSerialNums = [
+          ...new Set(res.data.decisionData.map((item) => item.compSerial)),
+        ];
+        setSerialNums(uniqueSerialNums.sort()); // 내림차순 정렬
         // res는 fetch 함수 안에서만 살아있음
       } catch (err) {
         console.log("API 에러:", err);
@@ -236,7 +246,8 @@ export const Home = () => {
 
   console.log(data);
   // console.log(allData);
-  console.log(compNames);
+  // console.log(compNames);
+  // console.log(serialNums);
 
   return (
     <Container>
@@ -245,6 +256,7 @@ export const Home = () => {
           <h1>공압기 검사 주기 설정</h1>
         </Title>
 
+        {/* 필터 */}
         <FilterWrapper>
           <Filter
             onClick={() => setShowFilter((prev) => !prev)}
@@ -253,6 +265,7 @@ export const Home = () => {
             <IoFilter />
             &nbsp; Filter
           </Filter>
+
           {showFilter && (
             <FilterBox>
               <FilterH>
@@ -270,17 +283,36 @@ export const Home = () => {
                     onChange={(e) => setSelectedCompany(e.target.value)}
                   >
                     <option value="all">전체</option>
-                    <option value="a">A</option>
-                    <option value="b">B</option>
+                    {/* 🔥 전체 업체명 리스트로 드롭다운 채우기 */}
+                    {compNames.map((company, idx) => (
+                      <option key={idx} value={company}>
+                        {company}
+                      </option>
+                    ))}
                   </Select>
                 </Company>
 
-                <SerialNum></SerialNum>
+                <SerialNum>
+                  <h3>시리얼넘버</h3>
+                  <Select
+                    value={selectedSerial}
+                    onChange={(e) => setSelectedSerial(e.target.value)}
+                  >
+                    <option value="all">전체</option>
+                    {/* 🔥 전체 시리얼넘버 리스트로 드롭다운 채우기 */}
+                    {serialNums.map((serial, idx) => (
+                      <option key={idx} value={serial}>
+                        {serial}
+                      </option>
+                    ))}
+                  </Select>
+                </SerialNum>
               </FilterB>
             </FilterBox>
           )}
         </FilterWrapper>
 
+        {/* 테이블 */}
         <Table>
           <Thead>
             <Tr>
