@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getDDay, getAllDDay } from "../api";
 import styled from "styled-components";
 import { IoCloseOutline, IoFilter } from "react-icons/io5";
+import { BiBorderRadius } from "react-icons/bi";
 
 const Container = styled.div`
   width: 100%;
@@ -69,7 +70,6 @@ const FilterH = styled.div`
 const FilterB = styled.div`
   width: 100%;
   height: 100%;
-  background-color: #fff;
   padding: 15px;
 `;
 
@@ -165,7 +165,34 @@ const PageButton = styled.button`
 
 const SerialNum = styled.div`
   margin-top: 40px;
+  h3 {
+    letter-spacing: -1px;
+    font-weight: 500;
+  }
 `;
+
+const SerialToggleBtn = styled.button`
+  width: 60px;
+  height: 30px;
+  background-color: ${(props) => (props.$active ? "#1865e0" : "#ccc")};
+  border-radius: 30px;
+  border: none;
+  position: relative;
+  margin-top: 10px;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 3px;
+    left: ${(props) => (props.$active ? "32px" : "3px")};
+    width: 24px;
+    height: 24px;
+    background-color: #fff;
+    border-radius: 50%;
+  }
+`;
+// ::after	HTML에 없는 가짜 요소를 생성해서 꾸며주는 기능
+// content: "";	그 가짜 요소를 "실제로 존재"하게 만듦 (내용은 비워둘 수도 있음)
+// 안 쓰면?	::after는 생성되지 않아서 width, height, background 같은 것도 적용 안 됨
 
 export const Home = () => {
   const [data, setData] = useState([]);
@@ -178,6 +205,7 @@ export const Home = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState("all");
   const [selectedSerial, setSelectedSerial] = useState("all");
+  const [isOn, setIsOn] = useState(false);
 
   // 1번 useEffect - 페이지별 데이터
   useEffect(() => {
@@ -244,6 +272,11 @@ export const Home = () => {
   const isFirstPage = nowPage === 1;
   const isLastPage = nowPage === maxPage;
 
+  // 시리얼넘버 토글버튼
+  const handleToggle = () => {
+    setIsOn((prev) => !prev);
+  };
+
   console.log(data);
   // console.log(allData);
   // console.log(compNames);
@@ -306,6 +339,14 @@ export const Home = () => {
                       </option>
                     ))}
                   </Select>
+                </SerialNum>
+
+                <SerialNum>
+                  <h3>시리얼넘버 존재하는 공압기만 조회</h3>
+                  <SerialToggleBtn
+                    $active={isOn}
+                    onClick={handleToggle}
+                  ></SerialToggleBtn>
                 </SerialNum>
               </FilterB>
             </FilterBox>
