@@ -228,6 +228,7 @@ export const Home = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState("all");
   const [isOn, setIsOn] = useState(false);
+  const [countPerPage, setCountPerPage] = useState(15); // 페이지당 개수
 
   // 1번 useEffect - 페이지별 데이터
   useEffect(() => {
@@ -294,6 +295,35 @@ export const Home = () => {
     setIsOn((prev) => !prev);
   };
 
+  const handleApplyFilter = () => {
+    let filteredData = allData;
+
+    // 업체명 필터
+    if (selectedCompany !== "all") {
+      filteredData = filteredData.filter(
+        (item) => item.customer === selectedCompany
+      );
+    }
+
+    // 시리얼 넘버 존재 필터
+    if (isOn) {
+      filteredData = filteredData.filter(
+        (item) => item.compSerial !== null && item.compSerial.trim() !== ""
+      );
+    }
+
+    // maxPage 다시 계산
+    const calculatedMaxPage = Math.ceil(filteredData.length / countPerPage);
+    setMaxPage(calculatedMaxPage);
+
+    // 현재 페이지 데이터만 자르기
+    // const startIdx = ()
+
+    // 둘 다 적용한 결과를 화면에 뿌리기
+    setData(filteredData);
+    setShowFilter(false);
+  };
+
   console.log(data);
   // console.log(allData);
   // console.log(compNames);
@@ -351,7 +381,7 @@ export const Home = () => {
               </FilterB>
 
               <FilterF>
-                <Apply>Apply</Apply>
+                <Apply onClick={handleApplyFilter}>Apply</Apply>
               </FilterF>
             </FilterBox>
           )}
