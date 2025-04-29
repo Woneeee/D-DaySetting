@@ -316,9 +316,6 @@ export const Home = () => {
     const calculatedMaxPage = Math.ceil(filteredData.length / countPerPage);
     setMaxPage(calculatedMaxPage);
 
-    // 현재 페이지 데이터만 자르기
-    // const startIdx = ()
-
     // 둘 다 적용한 결과를 화면에 뿌리기
     setData(filteredData);
     setShowFilter(false);
@@ -327,6 +324,8 @@ export const Home = () => {
   console.log(data);
   // console.log(allData);
   // console.log(compNames);
+
+  // 그 다음에 전체를 선택했을때는 페이지 한 페이지당 15개 씩 나오게 만들기
 
   return (
     <Container>
